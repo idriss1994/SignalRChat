@@ -1,4 +1,5 @@
 ﻿import * as signalR from "@microsoft/signalr";
+import { connect } from "tls";
 import "./css/main.css";
 
 const divMessages: HTMLDivElement = document.querySelector("#divMessages");
@@ -19,7 +20,8 @@ connection.on("messageReceived", (username: string, message: string) => {
     divMessages.scrollTop = divMessages.scrollHeight;
 });
 
-connection.start().catch(err => document.write(err));
+connection.start().catch((err) => console.error(err));
+//connection.start().catch((err) => document.write(err));
 
 tbMessage.addEventListener("keyup", (e: KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -32,4 +34,5 @@ btnSend.addEventListener("click", send);
 function send() {
     connection.send("newMessage", username, tbMessage.value)
         .then(() => (tbMessage.value = ""));
+    console.log("Message is: ", tbMessage.value);
 }
